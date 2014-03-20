@@ -1,4 +1,13 @@
 div(ng-controller="mainCtrl")
-  ul
-    li( ng-repeat="feature in features" on-finish-render )
-      h3 {{ feature }}
+  div.row
+    p.col-xs-1 {{ money }}€
+    p.col-xs-3 {{ taps }} taps
+    div.col-xs-3
+      button.btn(ng-click="restart()", value="restart")
+        | Restart
+    div.col-xs-3
+      button.btn(ng-click="tap()", value="Tap")
+        | Tap
+  div.row
+
+    canvas.col-md-12.gameView(id="gameCanvas", ng-click="tap($event)")
