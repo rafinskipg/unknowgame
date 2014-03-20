@@ -1,9 +1,9 @@
-var canvas, ctx,map = {}, items = [];
+var canvas, ctx, lastime,map = {}, items = [];
 var canvasio = {};
 var hu = require('hu');
 
 function initAnimFrame(){
-  var requestAnimFrame = (function(){
+  window.requestAnimFrame = (function(){
       return window.requestAnimationFrame       ||
           window.webkitRequestAnimationFrame ||
           window.mozRequestAnimationFrame    ||
@@ -24,23 +24,53 @@ function initAnimFrame(){
   damage: 80,
   sprite: new Sprite('images/newsprites.png', [7, 304], [88,35], 4, [0, 1,2,3,4])
 };*/
-    
+
+canvasio.init = function init(){
+  initAnimFrame();
+  canvas = document.getElementById("canvas");
+  canvasio.setMapProperties({width: canvas.width, height: canvas.height})
+  ctx = canvas.getContext("2d");
+  lastTime = Date.now();
+  main();
+}
+
+var main = function main(){
+  var now = Date.now();
+  var dt = (now - lastTime) / 1000.0;
+  canvasio.step(dt);
+  clearCanvas();
+  canvasio.render();
+  lastTime = now;
+  requestAnimFrame(main);
+};
+
+function clearCanvas(){
+  // Store the current transformation matrix
+  ctx.save();
+
+  // Use the identity matrix while clearing the canvas
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = '#CC5422'; 
+  ctx.fillRect(0,0, canvas.width, canvas.height);
+  // Restore the transform
+  ctx.restore();
+}
+
 canvasio.render = function render(){
   items.map(function(item){
-    drawItem(item);
+    canvasio.drawItem(item);
   });
-}
+};
 
+canvasio.drawItem = function drawItem(item, shapeOptions){
+  ctx.beginPath();
+  ctx.rect(item.pos.x,item.pos.y,item.size.width,item.size.height);
+  ctx.stroke();
+  ctx.restore();
+};
 
-function draw(options){
-  
-}
-
-canvasio.init = function initCanvas(){
-  // Create the canvas
-  canvas = document.getElementById("canvas");
-  ctx = canvas.getContext("2d");
-}
 
 canvasio.createItem = function createItem(item){
   items.push(item);

@@ -15,7 +15,21 @@ var controllers = angular.module('controllers',  [])
       game.tap();
       $scope.money = game.getMoney();
       $scope.taps = game.getTaps();
+      canvasio.createItem({
+      pos: {
+        x: 0,
+        y: 0
+      },
+      size: {
+        height: 10,
+        width: 10
+      },
+      speed: 5,
+      direction: 'up'
+    })
     };
     
-    
+    angular.element(document).ready(function () {
+        canvasio.init();
+    });
 }]);

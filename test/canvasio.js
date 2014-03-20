@@ -162,6 +162,10 @@ describe('Rendering', function(){
     expect(canvasio.render).to.exist;
   });
 
+  it('should have a draw item function', function(){
+    expect(canvasio.drawItem).to.exist;
+  });
 
+  
 
 });
