@@ -131,20 +131,20 @@ gulp.task("server", function(){
 });
 
 gulp.task("copy-dist", function(){
-    gulp.src('./app/styles/fonts/**.**')
-        .pipe(gulp.dest('./dist/styles/fonts/'));
-    return gulp.src([
-                './build/**/**.html',
-                './app/index.html',
-            ])
-            .pipe(gulp.dest('./dist/'));
+  gulp.src('./app/styles/fonts/**.**')
+      .pipe(gulp.dest('./dist/styles/fonts/'));
+  return gulp.src([
+              './build/**/**.html',
+              './app/index.html',
+          ])
+          .pipe(gulp.dest('./dist/'));
 
 });
 
 gulp.task('mocachino', function () {
-    gulp.src('test/test.js')
-        .pipe(tasks.mocha({reporter: 'spec'}))
-        .on('error', gutil.beep);
+   gulp.src('test/**.js')
+      .pipe(tasks.mocha({reporter: 'spec'}))
+      .on('error', gutil.beep);
 });
 
 //Default task,. For minify use gulp-minify-
