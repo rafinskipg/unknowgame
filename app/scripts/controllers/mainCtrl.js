@@ -1,4 +1,5 @@
 var game = require('../game');
+var canvasio = require('../canvasio');
 var controllers = angular.module('controllers',  [])
 .controller('mainCtrl', [
   '$scope',
