@@ -34,6 +34,7 @@ var services = angular.module('services', [])
     } 
     x -= e.target.offsetParent.offsetLeft;
     y -= e.target.offsetParent.offsetTop;
+    console.log('found coords', x, y)
     return {x:x, y:y};
   }
 
@@ -63,13 +64,11 @@ var services = angular.module('services', [])
 
   function tap(coords){
     game.tap();
-
     var taps = game.getTaps();
-
     if(isNeededEvent(taps)){
       canvasio.createItem(getEvent(coords));
     }
-
+    
     return {
       money: game.getMoney(),
       taps: taps

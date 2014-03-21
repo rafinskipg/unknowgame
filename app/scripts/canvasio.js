@@ -35,7 +35,7 @@ canvasio.init = function init(){
   ctx = canvas.getContext("2d");
   lastTime = Date.now();
   main();
-}
+};
 
 var main = function main(){
   var now = Date.now();
