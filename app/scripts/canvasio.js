@@ -28,7 +28,10 @@ function initAnimFrame(){
 canvasio.init = function init(){
   initAnimFrame();
   canvas = document.getElementById("canvas");
-  canvasio.setMapProperties({width: canvas.width, height: canvas.height})
+  canvas.height = 500;
+  canvas.width = 500;
+
+  canvasio.setMapProperties({width: canvas.offsetWidth, height: canvas.offsetHeight})
   ctx = canvas.getContext("2d");
   lastTime = Date.now();
   main();
@@ -41,17 +44,13 @@ var main = function main(){
   clearCanvas();
   canvasio.render();
   lastTime = now;
+
   requestAnimFrame(main);
 };
 
 function clearCanvas(){
   // Store the current transformation matrix
   ctx.save();
-
-  // Use the identity matrix while clearing the canvas
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
   ctx.fillStyle = '#CC5422'; 
   ctx.fillRect(0,0, canvas.width, canvas.height);
   // Restore the transform
@@ -68,7 +67,6 @@ canvasio.drawItem = function drawItem(item, shapeOptions){
   ctx.beginPath();
   ctx.rect(item.pos.x,item.pos.y,item.size.width,item.size.height);
   ctx.stroke();
-  ctx.restore();
 };
 
 
@@ -86,7 +84,6 @@ canvasio.setMapProperties = function(properties){
 
 canvasio.restart = function restart(){
   items = [];
-  map = {};
 };
 
 canvasio.getItems = function getItems(){
@@ -103,11 +100,11 @@ canvasio.click = function click(x,y){
   return clickedElements;
 };
 
-function checkIfPointInsideItem(x,y, objectCenter, objectSize){
-  var xF = objectCenter.x + objectSize.width/2;
-  var xI = objectCenter.x - objectSize.width/2;
-  var yF = objectCenter.y + objectSize.height/2;
-  var yI = objectCenter.y - objectSize.height/2;
+function checkIfPointInsideItem(x,y, objectOrig, objectSize){
+  var xF = objectOrig.x + objectSize.width;
+  var xI = objectOrig.x ;
+  var yF = objectOrig.y + objectSize.height;
+  var yI = objectOrig.y ;
   return x <= xF && x >= xI && y <= yF && y >= yI;
 }
 
@@ -118,6 +115,8 @@ canvasio.step = function step(dt){
       item.pos = canvasio._moveItem(dt, item);
       if(!canvasio._isOutOfScreen(item, map.width, map.height)){
         return item;
+      }else{
+        console.log('esta fuera', item, map)
       }
     }
   }));

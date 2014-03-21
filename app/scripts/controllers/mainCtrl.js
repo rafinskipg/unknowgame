@@ -1,35 +1,23 @@
-var game = require('../game');
-var canvasio = require('../canvasio');
+
+
 var controllers = angular.module('controllers',  [])
 .controller('mainCtrl', [
-  '$scope',
-  function($scope) {
-    $scope.money = game.getMoney();
-    $scope.taps = game.getTaps();
+  '$scope', 'clickService', 'gameService',
+  function($scope, clickService, gameService) {
+    
     $scope.restart = function(){
-      game.restart();
+      gameService.restart();
+      $scope.money = 0;
+      $scope.taps = 0;
     };
 
     $scope.tap = function(e){
-      console.log('w',e);
-      game.tap();
-      $scope.money = game.getMoney();
-      $scope.taps = game.getTaps();
-      canvasio.createItem({
-      pos: {
-        x: 0,
-        y: 0
-      },
-      size: {
-        height: 10,
-        width: 10
-      },
-      speed: 5,
-      direction: 'up'
-    })
+      var result = gameService.tap(clickService.getCoords(e));
+      $scope.money = result.money;
+      $scope.taps = result.taps;
     };
     
     angular.element(document).ready(function () {
-        canvasio.init();
+        gameService.init();
     });
 }]);

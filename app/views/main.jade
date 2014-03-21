@@ -6,8 +6,9 @@ div(ng-controller="mainCtrl")
       button.btn(ng-click="restart()", value="restart")
         | Restart
     div.col-xs-3
-      button.btn(ng-click="tap()", value="Tap")
-        | Tap
+      button.btn(ng-click="help()", value="Help")
+        | Help
   div.row
 
-    canvas.col-md-12.gameView(id="canvas", ng-click="tap($event)")
+    div.col-md-12
+      canvas.gameView(id="canvas", ng-click="tap($event)")
